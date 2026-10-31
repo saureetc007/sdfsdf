@@ -1,0 +1,15 @@
+DEMO DATA - fictional discussion written for DecisionTrace documentation. Not from a real repository.
+
+# Choose a storage backend for the job queue
+
+[issue_body @demo-alice 2024-01-10T09:00:00Z]
+We need persistence for the job queue. I propose we use Redis since it is fast.
+
+[issue_comment @demo-bob 2024-01-10T10:30:00Z]
+Redis adds an extra service to operate. I'd rather keep deployment simple.
+
+[issue_comment @demo-carol 2024-01-11T08:15:00Z]
+We decided to use SQLite for the job queue because it needs zero setup and ships with Python. Redis is rejected for now: we do not want to run another service.
+
+[issue_comment @demo-dave 2024-01-11T09:00:00Z]
+Should we also move the session cache? Not sure yet, let's discuss later.

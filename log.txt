@@ -1,0 +1,33 @@
+DECISIONTRACE BUILD LOG
+=======================
+Format: [UTC time] KIND: text.  Kinds: PROMPT, ACTION, FINDING, DECISION, RESULT, LIMITATION.
+This file is a human-written record kept by the assistant while building. It is not auto-generated.
+
+[2026-11-01] PROMPT 1 (summarised, not verbatim; the original is a ~11-section spec titled "PROJECT: DECISIONTRACE"):
+  Build a working, tested, evidence-grounded engineering-decision tool for GitHub repos. Local LLM only (Ollama preferred),
+  no hosted API keys, no silent regex fallback, evidence verification as a separate component, GitHub REST ingestion,
+  SQLite persistence + search, PR-context retrieval, tests (mocked model separate from real inference), README, final report.
+  Rule: never claim an untested feature works; state unmet acceptance criteria honestly.
+[2026-11-01] ACTION: Inspected environment. No repo, no uploads, no git history, no Ollama, no network, 1 CPU, 3.9 GB RAM, no GPU.
+[2026-11-01] FINDING: pydantic, pytest, httpx, streamlit are NOT installed and pip has no network.
+[2026-11-01] RESULT: Told the user real local inference, live GitHub calls and extraction quality cannot be verified in this sandbox.
+[2026-11-01] PROMPT 2 (verbatim): "build from scratch
+                                   and do one thing
+                                   whatever you are doing and whatever prompt Keep a record and make a log.txt file"
+[2026-11-01] DECISION: Build from scratch as a greenfield project (CLI-first).
+[2026-11-01] DECISION: Standard library only (dataclasses + hand-written schema validation instead of Pydantic; urllib instead of
+                       requests; unittest instead of pytest) because those packages cannot be installed here. Zero install
+                       dependencies also makes the project easier to run. Tests remain pytest-compatible.
+[2026-11-01] DECISION: No Streamlit UI. It cannot be installed or tested here, and the spec forbids claiming untested features.
+[2026-11-01] DECISION: Default model qwen2.5:7b-instruct (configurable; qwen2.5:3b-instruct for low RAM). Availability not verified here.
+[2026-11-01] ACTION: Wrote package decisiontrace/: config, transport, schema, providers (Ollama), verifier, extractor, github, db, ingest, pr_context, cli.
+[2026-11-01] RESULT: Smoke test `python -m decisiontrace analyze --demo` with no Ollama -> exit 2 and a setup-instructions error. No fabricated output. (Correct behaviour.)
+[2026-11-01] RESULT: sqlite FTS5 is available in this sandbox.
+[2026-11-01] ACTION: Wrote 60+ unit tests (mock model, fake GitHub transport) + a real-HTTP stub-server test + a skipped-by-default live Ollama test.
+[2026-11-01] FINDING: First run had 14 failures, all TEST bugs (excerpts under the 12-char minimum; fake router keyed wrongly), not product bugs. Fixed tests.
+[2026-11-01] RESULT: `python3 -m unittest discover -s tests -t .` -> all pass, 2 skipped (live Ollama tests need DECISIONTRACE_LIVE=1).
+[2026-11-01] ACTION: Wrote README.md, .env.example, .gitignore, pyproject.toml.
+[2026-11-01] RESULT: 65 tests run, all pass, 2 skipped (live). Skipped = real-model tests; they have NOT been run.
+[2026-11-01] LIMITATION: Acceptance criteria NOT met in this sandbox: real local inference request; live GitHub ingestion; extraction quality.
+[2026-11-01] LIMITATION: No UI beyond CLI. No git commit made.
+[2026-11-01] ACTION: Packaged project as decisiontrace.zip and copied log.txt to outputs.

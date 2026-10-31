@@ -1,0 +1,16 @@
+[project]
+name = "decisiontrace"
+version = "0.1.0"
+description = "Evidence-grounded engineering decision extraction for GitHub discussions (local LLM)"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+decisiontrace = "decisiontrace.cli:main"
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["decisiontrace"]
